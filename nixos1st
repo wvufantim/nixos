@@ -1,0 +1,56 @@
+{ pkgs ? import <nixpkgs> {} }:
+
+let
+  # Install packages from Nixpkgs
+  packages = pkgs.mkDerivation {
+    name = "packages";
+    buildInputs = [
+      pkgs.htop
+      pkgs.simplescreenrecorder
+      pkgs.numlockx
+      pkgs.mc
+      pkgs.stacer
+      pkgs.gparted
+      pkgs.brasero
+      pkgs.bulky
+      pkgs.parcellite
+    ];
+  };
+
+  # Install Flatpaks from Flathub
+  flatpaks = pkgs.mkDerivation {
+    name = "flatpaks";
+    buildInputs = [
+      pkgs.flatpak # Install flatpak if not already installed
+      (pkgs.fetchURL https://flathub.org/repo/org.onlyoffice.desktopeditors.flatpak) # OnlyOffice Desktop Editors
+      (pkgs.fetchURL https://flathub.org/repo/org.gnome.Cheese.flatpak) # Cheese
+      (pkgs.fetchURL https://flathub.org/repo/org.videolan.VLC.flatpak) # VLC
+      (pkgs.fetchURL https://flathub.org/repo/fr.handbrake.ghb.flatpak) # HandBrake
+      (pkgs.fetchURL https://flathub.org/repo/org.kde.kdenlive.flatpak) # Kdenlive
+      (pkgs.fetchURL https://flathub.org/repo/com.simplenote.Simplenote.flatpak) # Simplenote
+
+      # Additional Flatpaks you requested
+      (pkgs.fetchURL https://flathub.org/repo/org.freefilesync.FreeFileSync.flatpak) # FreeFileSync
+      (pkgs.fetchURL https://flathub.org/repo/org.jitsi.jitsi-meet.flatpak) # Jitsi Meet
+      (pkgs.fetchURL https://flathub.org/repo/org.signal.Signal.flatpak) # Signal
+      (pkgs.fetchURL https://flathub.org/repo/org.audacityteam.Audacity.flatpak) # Audacity
+      (pkgs.fetchURL https://flathub.org/repo/org.gnome.EasyTAG.flatpak) # EasyTAG
+      (pkgs.fetchURL https://flathub.org/repo/com.spotify.Client.flatpak) # Spotify
+      (pkgs.fetchURL https://flathub.org/repo/org.gtkhash.gtkhash.flatpak) # GTKHash
+      (pkgs.fetchURL https://flathub.org/repo/org.mozilla.Thunderbird.flatpak) # Thunderbird
+      (pkgs.fetchURL https://flathub.org/repo/io.gitlab.librewolf-community.flatpak) # LibreWolf
+      (pkgs.fetchURL https://flathub.org/repo/org.js.nuclear.Nuclear.flatpak) # Nuclear
+      (pkgs.fetchURL https://flathub.org/repo/org.gnome.Boxes.flatpak) # Boxes
+      (pkgs.fetchURL https://flathub.org/repo/org.flameshot.Flameshot.flatpak) # Flameshot
+      (pkgs.fetchURL https://flathub.org/repo/com.obsproject.Studio.flatpak) # OBS Studio
+      (pkgs.fetchURL https://flathub.org/repo/org.gnome.Shotwell.flatpak) # Shotwell
+      (pkgs.fetchURL https://flathub.org/repo/life.bolls.bolls.flatpak) # Bolls
+    ];
+  };
+
+in
+pkgs.mkDerivation {
+  name = "my-nixos-config";
+  inherit packages packages;
+  inherit flatpaks flatpaks;
+}
